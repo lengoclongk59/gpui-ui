@@ -11,6 +11,15 @@ crates/
 └── story   gallery app: one section per component, optional automation server
 ```
 
+## Website
+
+`site/` holds the project page. `.github/workflows/pages.yml` publishes it to
+GitHub Pages together with the `gpui-ui` API docs (`cargo doc`, served under
+`/api/`) on every push to `main` that touches `crates/ui`, `site` or the
+manifests. The gallery screenshots in `site/assets/` come from
+`cli-anything-gpui-ui screenshot window`; regenerate them when a component
+changes its look.
+
 ## Run the gallery
 
 ```sh

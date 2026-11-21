@@ -1,0 +1,70 @@
+# Builds the landing page in `site/` plus the `gpui-ui` API docs and deploys
+# them to GitHub Pages. Repository settings: Pages > Source = GitHub Actions.
+name: Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "crates/ui/**"
+      - "site/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let an in-progress deployment finish; queue at most one newer run.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+
+      # Documenting only `gpui-ui` needs no system libraries on Linux: the
+      # windowing backends belong to `gpui_platform`, which only `story` uses.
+      - name: Build API docs
+        run: cargo doc -p gpui-ui --no-deps --locked
+        env:
+          RUSTDOCFLAGS: -D warnings
+
+      - name: Assemble site
+        run: |
+          mkdir -p _site
+          cp -r site/. _site/
+          cp -r target/doc _site/api
+          cat > _site/api/index.html <<'HTML'
+          <!doctype html>
+          <meta charset="utf-8">
+          <meta http-equiv="refresh" content="0; url=gpui_ui/index.html">
+          <link rel="canonical" href="gpui_ui/index.html">
+          <a href="gpui_ui/index.html">gpui_ui API docs</a>
+          HTML
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
