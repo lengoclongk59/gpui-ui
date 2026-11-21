@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>gpui-ui: web-inspired UI components for GPUI</title>
+  <meta name="description" content="Web-inspired UI components for GPUI, the GPU-accelerated UI framework behind the Zed editor.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="wrap top">
+    <span class="brand">gpui-ui</span>
+    <nav>
+      <a href="api/gpui_ui/index.html">API docs</a>
+      <a href="https://github.com/lengoclongk59/gpui-ui">GitHub</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <h1>Web-inspired UI components for GPUI</h1>
+      <p class="lead">
+        Buttons, switches and theme tokens for <a href="https://www.gpui.rs">GPUI</a>,
+        the GPU-accelerated UI framework behind the Zed editor. Ported from familiar
+        web designs, with light and dark themes and a gallery app you can drive
+        from scripts.
+      </p>
+      <p class="actions">
+        <a class="btn primary" href="api/gpui_ui/index.html">Read the API docs</a>
+        <a class="btn outline" href="#quick-start">Quick start</a>
+      </p>
+    </section>
+
+    <figure class="shot">
+      <picture>
+        <source srcset="assets/gallery-dark.png" media="(prefers-color-scheme: dark)">
+        <img src="assets/gallery-light.png" width="960" height="520"
+             alt="The gpui-ui gallery showing button variants, button sizes and switches">
+      </picture>
+      <figcaption>The <code>story</code> gallery, rendered offscreen by its automation server.</figcaption>
+    </figure>
+
+    <section>
+      <h2>Components</h2>
+      <div class="grid">
+        <article class="card">
+          <h3><a href="api/gpui_ui/button/index.html">Button</a></h3>
+          <p>Primary, secondary, outline, ghost and danger variants in three sizes,
+             with hover, active and disabled states.</p>
+        </article>
+        <article class="card">
+          <h3><a href="api/gpui_ui/switch/index.html">Switch</a></h3>
+          <p>A controlled on/off toggle with an optional label. The owner keeps the
+             value, like a controlled React input.</p>
+        </article>
+        <article class="card">
+          <h3><a href="api/gpui_ui/theme/index.html">Theme</a></h3>
+          <p>Light and dark color tokens mapped from CSS variables. Components never
+             hard-code colors.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="quick-start">
+      <h2>Quick start</h2>
+      <p>Add the crate from Git (it is not on crates.io yet):</p>
+      <pre><code>[dependencies]
+gpui-ui = { git = "https://github.com/lengoclongk59/gpui-ui" }</code></pre>
+      <p>Call <code>gpui_ui::init</code> once before opening a window, then use the
+         builders inside any view:</p>
+      <pre><code>use gpui_ui::button::{Button, ButtonVariant};
+use gpui_ui::switch::Switch;
+
+Button::new("save")
+    .variant(ButtonVariant::Primary)
+    .label("Save")
+    .on_click(cx.listener(|this, _, _, cx| {
+        this.saves += 1;
+        cx.notify();
+    }));
+
+Switch::new("notifications")
+    .label("Notifications")
+    .checked(self.notifications)
+    .on_change(cx.listener(|this, checked: &amp;bool, _, cx| {
+        this.notifications = *checked;
+        cx.notify();
+    }));</code></pre>
+      <p>GPUI comes from the <code>gpui-pre-*</code> snapshot crates, pinned to
+         <code>=0.3.12</code>. Use the same snapshot in your application.</p>
+    </section>
+
+    <section>
+      <h2>Run the gallery</h2>
+      <pre><code>cargo run                          # opens the component gallery
+cargo run -p story -- --automation # adds the JSON Lines automation server</code></pre>
+      <p>The automation server clicks, hovers and inspects components through GPUI's
+         real input path and renders screenshots without capturing the screen. The
+         <code>cli-anything-gpui-ui</code> harness wraps it in a command line for
+         scripts and AI agents.</p>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <p>gpui-ui is MIT licensed. Layout follows
+       <a href="https://github.com/longbridge/gpui-kit">gpui-kit</a>.</p>
+  </footer>
+</body>
+</html>

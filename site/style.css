@@ -1,0 +1,139 @@
+:root {
+  color-scheme: light dark;
+  --bg: #ffffff;
+  --fg: #0f172a;
+  --muted: #64748b;
+  --card: #f8fafc;
+  --border: #e2e8f0;
+  --primary: #2563eb;
+  --primary-fg: #ffffff;
+  --code-bg: #f1f5f9;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #020617;
+    --fg: #f8fafc;
+    --muted: #94a3b8;
+    --card: #0f172a;
+    --border: #1e293b;
+    --primary: #3b82f6;
+    --code-bg: #0f172a;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+a { color: var(--primary); }
+
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand { font-weight: 600; font-size: 18px; }
+
+nav a {
+  margin-left: 20px;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+nav a:hover { color: var(--primary); }
+
+.hero { padding: 56px 0 32px; }
+
+h1 {
+  font-size: clamp(30px, 5vw, 44px);
+  line-height: 1.15;
+  margin: 0 0 16px;
+}
+
+h2 { margin-top: 56px; }
+
+.lead { font-size: 18px; color: var(--muted); max-width: 680px; }
+
+.actions { margin-top: 28px; }
+
+.btn {
+  display: inline-block;
+  padding: 10px 18px;
+  margin-right: 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.btn.primary { background: var(--primary); color: var(--primary-fg); }
+.btn.outline { border-color: var(--border); color: var(--fg); }
+.btn:hover { filter: brightness(1.08); }
+
+.shot { margin: 16px 0 0; }
+
+.shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+figcaption { color: var(--muted); font-size: 14px; margin-top: 8px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 4px 20px 12px;
+}
+
+.card h3 a { color: var(--fg); text-decoration: none; }
+.card h3 a:hover { color: var(--primary); }
+.card p { color: var(--muted); }
+
+code {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.9em;
+}
+
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+
+footer {
+  margin-top: 72px;
+  padding-top: 20px;
+  padding-bottom: 40px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 14px;
+}
